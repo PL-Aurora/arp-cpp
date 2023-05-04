@@ -1,6 +1,7 @@
 #ifndef _ARP_CORE_H_
 #define _ARP_CORE_H_
 
+#include <iostream>
 #include <cstdint>
 #include <cstring>
 #include <array>
@@ -46,11 +47,13 @@ public:
     ARP(const std::array<uint8_t, 6> &sender_mac, const std::array<uint8_t, 6> &dest_mac, 
         const std::array<uint8_t, 4> &sender_ip, const std::array<uint8_t, 4> &dest_ip);
 
+    ~ARP();
+
     // std::array<uint8_t, sizeof(struct _arp_hdr)> arp_bytes { return }
 
-    uint8_t *raw_bytes();
+    uint8_t *ret_raw_bytes();
 
-    ~ARP();
+    
 private:
     struct _arp_hdr arp_hdr;
     std::array<uint8_t, 42> raw_arp; 

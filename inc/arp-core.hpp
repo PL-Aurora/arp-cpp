@@ -33,11 +33,11 @@ struct _arp_hdr {
 
         uint16_t opcode;
 
-        std::array<uint8_t, HWALEN> src_mac;
-        std::array<uint8_t, IPALEN> src_ip;
+        std::array<uint8_t, HWALEN> src_mac_a;
+        std::array<uint8_t, IPALEN> src_ip_a;
         
-        std::array<uint8_t, HWALEN> dst_mac;
-        std::array<uint8_t, IPALEN> dst_ip;
+        std::array<uint8_t, HWALEN> dst_mac_a;
+        std::array<uint8_t, IPALEN> dst_ip_a;
 };
 
 class ARP {
@@ -50,7 +50,7 @@ public:
 
     ~ARP();
 
-    auto &source_mac() { return arp_hdr.src_mac; }
+    auto &source_mac() { return arp_hdr.src_mac_a; }
 
     // const std::array<uint8_t, 6> &test_source_mac() const { return test_mac_arr; }
 
@@ -58,7 +58,7 @@ public:
 
     uint8_t *ret_raw_bytes();
 
-    friend std::ostream& operator<<(std::ostream &os, const ARP &arp);
+    friend std::ostream& operator<<(std::ostream &os, ARP &arp);
 
 private:
     struct _arp_hdr arp_hdr;

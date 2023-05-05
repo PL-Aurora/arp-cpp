@@ -5,7 +5,10 @@
 #include <arpa/inet.h>
 
 ARP::ARP() {
+    std::cout << "Starting constructor...\n";
+
     std::copy(arp_hdr.eth.src_mac.begin(), arp_hdr.eth.src_mac.end(), host_device_mac);
+    std::copy(arp_hdr.src_mac_a.begin(), arp_hdr.src_mac_a.end(), host_device_mac);
 
     std::ranges::fill(arp_hdr.eth.dest_mac, 0xff);
     arp_hdr.eth.h_type = htons(HW_ARP_TYPE);
@@ -14,10 +17,10 @@ ARP::ARP() {
 ARP::ARP(const std::array<uint8_t, HWALEN> &sender_mac, const std::array<uint8_t, HWALEN> &dest_mac, 
         const std::array<uint8_t, IPALEN> &sender_ip, const std::array<uint8_t, IPALEN> &dest_ip) {
 
-    std::copy(std::begin(sender_mac), std::end(sender_mac), std::begin(arp_hdr.src_mac));
-    std::copy(std::begin(dest_mac), std::end(dest_mac), std::begin(arp_hdr.dst_mac));
-    std::copy(std::begin(sender_ip), std::end(sender_ip), std::begin(arp_hdr.src_ip));
-    std::copy(std::begin(dest_ip), std::end(dest_ip), std::begin(arp_hdr.dst_ip));
+    std::copy(std::begin(sender_mac), std::end(sender_mac), std::begin(arp_hdr.src_mac_a));
+    std::copy(std::begin(dest_mac), std::end(dest_mac), std::begin(arp_hdr.dst_mac_a));
+    std::copy(std::begin(sender_ip), std::end(sender_ip), std::begin(arp_hdr.src_ip_a));
+    std::copy(std::begin(dest_ip), std::end(dest_ip), std::begin(arp_hdr.dst_ip_a));
     // std::copy(std::begin)
 }
 
@@ -41,10 +44,11 @@ std::string dump_packet_members(std::array<uint8_t, SIZE> &arr) {
     return data;
 }
 
-/* std::ostream& operator<<(std::ostream &os, ARP &arp) {
+std::ostream& operator<<(std::ostream &os, ARP &arp) {
     // os << "Source IP: " << dump_packet_members(arp.source_mac());
     
-    os << "Source IP: " << dump_packet_members(arp.source_mac());
+    os << "Source MAC: " << dump_packet_members(arp.source_mac());
+    // os << "Override output";
 
     return os;
-} */
+}

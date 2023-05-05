@@ -9,9 +9,10 @@ int main([[maybe_unused]]int argc, [[maybe_unused]] char *argv[]) {
 
     std::cout << "\n";
 
+    // std::unique_ptr<ARP> p1 = std::make_unique<ARP>();
     auto p1 = std::make_unique<ARP>();
 
-    // std::cout << p1;
+    std::cout << *p1;
 
     /* for(auto x : p1->source_mac())
         std::cout << unsigned(x) << ":";

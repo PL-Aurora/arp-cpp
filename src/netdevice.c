@@ -42,6 +42,7 @@ void init_device() {
             }
         }
     }
+    free(ifaddr);
 }
 
 void transform_ip(uint8_t *ip, uint32_t ip_decimal) {

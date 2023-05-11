@@ -1,3 +1,6 @@
+#ifndef _ETHER_HPP_
+#define _ETHER_HPP_
+
 #include <array>
 #include <string>
 #include <memory>
@@ -10,6 +13,11 @@
 #include <arpa/inet.h>
 
 #include "netdevice.h"
+
+#define HWALEN 6
+
+#define ARP_P_TYPE 0x0806
+#define IP_P_TYPE 0x0800
 
 class PacketBuilder {
 public:
@@ -25,18 +33,20 @@ class Ether {
 public:
     using EthHdr = std::unique_ptr<Ether>;
 
-    Ether() : proto(htons(2048)) {
-        std::memcpy(eth_mac_src.data(), host_device_mac, 6);
+    Ether(uint16_t p) : proto(htons(p)) {
+        std::memcpy(eth_mac_src.data(), host_device_mac, HWALEN);
         std::ranges::fill(eth_mac_dst, 0xc6);
     };
 
     Ether(uint16_t p, uint8_t *src, uint8_t *dst) : proto(htons(p)) {
-        std::memcpy(eth_mac_src.data(), src, 6);
-        std::memcpy(eth_mac_dst.data(), dst, 6);
+        std::memcpy(eth_mac_src.data(), src, HWALEN);
+        std::memcpy(eth_mac_dst.data(), dst, HWALEN);
     };
 
     auto &get_mac_src() const { return eth_mac_src; };
     auto &get_mac_dst() const { return eth_mac_dst; };
+
+    void set_mac(std::array<uint8_t, HWALEN> &mac, void *src) { std::memcpy(mac.data(), src, HWALEN); };
 
     // const uint8_t raw_ether_hdr();
 
@@ -44,9 +54,12 @@ public:
     std::string dump_data(const std::array<uint8_t, SIZE> &a);
 
     friend std::ostream &operator<<(std::ostream &os, const Ether &e);
+    ~Ether() {};
 
 private:
-    std::array<uint8_t, 6> eth_mac_src;
-    std::array<uint8_t, 6> eth_mac_dst;
+    std::array<uint8_t, HWALEN> eth_mac_src;
+    std::array<uint8_t, HWALEN> eth_mac_dst;
     uint16_t proto;
 };
+
+#endif // _ETHER_HPP_

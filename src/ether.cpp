@@ -1,6 +1,6 @@
 #include "../inc/ether.hpp"
 
-#include <sstream>
+// #include <sstream>
 
 template<std::size_t SIZE>
 std::string dump_data(const std::array<uint8_t, SIZE> &a) {

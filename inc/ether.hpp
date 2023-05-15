@@ -1,18 +1,7 @@
 #ifndef _ETHER_HPP_
 #define _ETHER_HPP_
 
-#include <array>
-#include <string>
-#include <memory>
-#include <cstdint>
-#include <ranges>
-#include <iomanip>
-
-#include <cstring>
-
-#include <arpa/inet.h>
-
-#include "netdevice.h"
+#include "core.hpp"
 
 #define HWALEN 6
 
@@ -48,7 +37,6 @@ public:
 
     void set_mac(std::array<uint8_t, HWALEN> &mac, void *src) { std::memcpy(mac.data(), src, HWALEN); };
 
-    // const uint8_t raw_ether_hdr();
 
     template<std::size_t SIZE>
     std::string dump_data(const std::array<uint8_t, SIZE> &a);

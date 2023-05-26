@@ -1,5 +1,6 @@
 #include "inc/ether.hpp"
 #include "inc/arp.hpp"
+#include "inc/receive_socket.h"
 
 #include <cstdlib>
 #include <vector>
@@ -11,7 +12,6 @@ static std::array<uint8_t, IPALEN> ip_dst;
 
 namespace input_args {
     void parse_args(int argc, char *argv[]);
-    // bool valid_ip(const std::string &ip);
     bool valid_ip(char *ip);
 
 }; //input_args
@@ -50,10 +50,13 @@ int main(int argc, char *argv[]) {
 
     init_device();
 
+    int sock = create_recv_socket();
+
     std::unique_ptr<ARP> a1 = std::make_unique<ARP>(1);
 
     std::cout << *a1;
 
     free(host_device_if_name);
+    close(sock);
     return 0;
 }

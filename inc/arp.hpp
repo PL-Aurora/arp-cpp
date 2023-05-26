@@ -19,12 +19,11 @@ public:
         dst_mac_a(this->eth->get_mac_dst())
         {}
 
-    // ARP(uint16_t op, )
 
     ~ARP() {};
 
-    auto &get_mac_arp_src() const { return src_mac_a; };
-    auto &get_mac_arp_dst() const { return dst_mac_a; };
+    auto get_mac_arp_src() const { return src_mac_a; };
+    auto get_mac_arp_dst() const { return dst_mac_a; };
 
 
     template<std::size_t SIZE>

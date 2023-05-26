@@ -1,6 +1,7 @@
 #include "inc/ether.hpp"
 #include "inc/arp.hpp"
 #include "inc/receive_socket.h"
+#include "inc/packet.hpp"
 
 #include <cstdlib>
 #include <vector>
@@ -39,14 +40,12 @@ bool input_args::valid_ip(char *ip) {
     for(auto it = ip_dst.begin(); it != ip_dst.end(); ++it, ++cnt)
         *it = static_cast<uint8_t>((addr.s_addr >> (8 * cnt)) & 0xff);
 
-    /* for(auto &i : ip_dst) {
-        std::cout << static_cast<int>(i) << std::endl;
-    } */
     return true;
 }
 
 int main(int argc, char *argv[]) {
-    std::array<uint8_t, MAX_PACKET_SIZE> buff; 
+    std::array<uint8_t, MAX_PACKET_SIZE> buff;
+    Packet p; 
     input_args::parse_args(argc, argv);
 
     init_device();
@@ -58,9 +57,8 @@ int main(int argc, char *argv[]) {
             perror("Failed to receive packets");
             return 1;
         }
-        for(const auto &i : buff)
-            std::cout << static_cast<int>(i) << " ";
-        std::cout << std::endl;
+        p.extract_ethertype(buff.data());
+        
     }
 
     std::unique_ptr<ARP> a1 = std::make_unique<ARP>(1);

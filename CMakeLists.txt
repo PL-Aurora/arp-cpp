@@ -4,7 +4,7 @@ project(arp VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-add_executable(arp arp.cpp src/netdevice.c src/receive_socket.c src/ether.cpp src/arp.cpp)
+add_executable(arp arp.cpp src/netdevice.c src/receive_socket.c src/ether.cpp src/arp.cpp src/packet.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

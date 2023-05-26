@@ -1,5 +1,6 @@
 #include "../inc/netdevice.h"
 
+int host_device_ifindex;
 char *host_device_if_name = NULL;
 uint8_t host_device_ip[4] = {0};
 uint8_t host_device_mac[6] = {0};
@@ -23,6 +24,7 @@ void init_device() {
                     
                     host_device_if_name = (char *) malloc(strlen(ifa->ifa_name) + 1);
                     strcpy(host_device_if_name, ifa->ifa_name);
+                    host_device_ifindex = s->sll_ifindex;
 
                     for (int i = 0; i < s->sll_halen; i++) {
                         host_device_mac[i] = s->sll_addr[i];

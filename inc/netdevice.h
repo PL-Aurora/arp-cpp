@@ -18,6 +18,7 @@ extern "C" {
 extern uint8_t host_device_mac[6];
 extern uint8_t host_device_ip[4];
 extern char *host_device_if_name;
+extern int host_device_ifindex;
 
 void init_device();
 void transform_ip(uint8_t *ip, uint32_t ip_decimal);

@@ -46,11 +46,22 @@ bool input_args::valid_ip(char *ip) {
 }
 
 int main(int argc, char *argv[]) {
+    std::array<uint8_t, MAX_PACKET_SIZE> buff; 
     input_args::parse_args(argc, argv);
 
     init_device();
-
     int sock = create_recv_socket();
+
+    while(1) {
+        int packet_size = recvfrom(sock, buff.data(), MAX_PACKET_SIZE, 0, NULL, NULL);
+        if (packet_size < 0) {
+            perror("Failed to receive packets");
+            return 1;
+        }
+        for(const auto &i : buff)
+            std::cout << static_cast<int>(i) << " ";
+        std::cout << std::endl;
+    }
 
     std::unique_ptr<ARP> a1 = std::make_unique<ARP>(1);
 

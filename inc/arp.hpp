@@ -8,6 +8,7 @@
 
 class ARP {
 public:
+    ARP(uint8_t *bytes);
     ARP(uint16_t op) :
         eth(std::move(std::make_unique<Ether>(IP_P_TYPE))), 
         htype(htons(1)),
